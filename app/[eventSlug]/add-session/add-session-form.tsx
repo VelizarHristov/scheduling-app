@@ -260,7 +260,7 @@ function getAvailableStartTimes(
       startTimes.push({
         formattedTime,
         time: t,
-        maxDuration: 120,
+        maxDuration: 180,
         available: true,
       });
     }
@@ -390,6 +390,8 @@ function SelectDuration(props: {
     { value: 60, label: "1 hour" },
     { value: 90, label: "1.5 hours" },
     { value: 120, label: "2 hours" },
+    { value: 150, label: "2.5 hours" },
+    { value: 180, label: "3 hours" },
   ];
   const availableDurations = maxDuration
     ? durations.filter(({ value }) => value <= maxDuration)
