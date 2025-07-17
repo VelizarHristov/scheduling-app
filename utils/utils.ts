@@ -9,7 +9,7 @@ export const getNumHalfHours = (start: Date, end: Date) => {
 };
 
 export const convertParamDateTime = (date: string, time: string) => {
-  return new Date(`2024-${date}T${time}:00-07:00`);
+  return new Date(`2025-${date}T${time}:00+02:00`);
 };
 
 export const dateOnDay = (date: Date, day: Day) => {
