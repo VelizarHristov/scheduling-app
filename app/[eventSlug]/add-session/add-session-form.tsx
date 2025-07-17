@@ -36,7 +36,7 @@ export function AddSessionForm(props: {
     : undefined;
   const initTime = initDateTime
     ? DateTime.fromJSDate(initDateTime)
-        .setZone("America/Los_Angeles")
+        .setZone("Europe/Berlin")
         .toFormat("h:mm a")
     : undefined;
   const [title, setTitle] = useState("");
@@ -227,7 +227,7 @@ function getAvailableStartTimes(
     t += 30 * 60 * 1000
   ) {
     const formattedTime = DateTime.fromMillis(t)
-      .setZone("America/Los_Angeles")
+      .setZone("Europe/Berlin")
       .toFormat("h:mm a");
     if (locationSelected) {
       const sessionNow = sortedSessions.find(

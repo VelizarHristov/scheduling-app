@@ -66,10 +66,10 @@ export function BookableSessionCard(props: {
 }) {
   const { numHalfHours, session, location, eventName } = props;
   const dayParam = DateTime.fromISO(session["Start time"])
-    .setZone("America/Los_Angeles")
+    .setZone("Europe/Berlin")
     .toFormat("MM-dd");
   const timeParam = DateTime.fromISO(session["Start time"])
-    .setZone("America/Los_Angeles")
+    .setZone("Europe/Berlin")
     .toFormat("HH:mm");
   const eventSlug = eventName.replace(" ", "-");
   return (
@@ -151,11 +151,11 @@ export function RealSessionCard(props: {
           <ClockIcon className="h-4 w-4" />
           <span>
             {DateTime.fromISO(session["Start time"])
-              .setZone("America/Los_Angeles")
+              .setZone("Europe/Berlin")
               .toFormat("h:mm a")}{" "}
             -{" "}
             {DateTime.fromISO(session["End time"])
-              .setZone("America/Los_Angeles")
+              .setZone("Europe/Berlin")
               .toFormat("h:mm a")}
           </span>
         </div>

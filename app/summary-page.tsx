@@ -28,11 +28,11 @@ export default async function SummaryPage(props: { events: Event[] }) {
                   <CalendarIcon className="3 w-3 stroke-2" />
                   <span>
                     {DateTime.fromISO(`${event.Start}T12:00:00.000-07:00`)
-                      .setZone("America/Los_Angeles")
+                      .setZone("Europe/Berlin")
                       .toFormat("LLL d")}
                     {" - "}
                     {DateTime.fromISO(`${event.End}T12:00:00.000-07:00`)
-                      .setZone("America/Los_Angeles")
+                      .setZone("Europe/Berlin")
                       .toFormat("LLL d")}
                   </span>
                 </span>

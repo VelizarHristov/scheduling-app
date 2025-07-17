@@ -46,13 +46,13 @@ export function EventDisplay(props: {
           <CalendarIcon className="h-4 w-4 stroke-2" />
           <span>
             {DateTime.fromFormat(event.Start, "yyyy-MM-dd", {
-              zone: "America/Los_Angeles",
+              zone: "Europe/Berlin",
             }).toFormat("LLL d")}
             {multipleDays && (
               <>
                 {" - "}
                 {DateTime.fromFormat(event.End, "yyyy-MM-dd", {
-                  zone: "America/Los_Angeles",
+                  zone: "Europe/Berlin",
                 }).toFormat("LLL d")}
               </>
             )}

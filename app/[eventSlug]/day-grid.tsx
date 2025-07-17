@@ -76,7 +76,7 @@ export function DayGrid(props: {
         <div className="flex items-center gap-2">
           <h2 className="text-2xl font-bold">
             {DateTime.fromISO(day.Start)
-              .setZone("America/Los_Angeles")
+              .setZone("Europe/Berlin")
               .toFormat("EEEE, MMMM d")}
           </h2>
           <button
@@ -189,7 +189,7 @@ function TimestampCol(props: { start: Date; end: Date }) {
           className="border-b border-gray-100 text-[10px] p-1 text-right h-[44px]"
         >
           {DateTime.fromMillis(start.getTime() + i * 30 * 60 * 1000)
-            .setZone("America/Los_Angeles")
+            .setZone("Europe/Berlin")
             .toFormat("h:mm a")}
         </div>
       ))}

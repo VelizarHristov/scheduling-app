@@ -102,7 +102,7 @@ export function ExportScheduleModal() {
             iCal link
           </a>
           <a
-            href="https://calendar.google.com/calendar/embed?src=fo6ng9e5sji2mli6eisk5lctpk9eb8da%40import.calendar.google.com&ctz=America%2FLos_Angeles"
+            href="https://calendar.google.com/calendar/embed?src=fo6ng9e5sji2mli6eisk5lctpk9eb8da%40import.calendar.google.com&ctz=Europe%2FBerlin"
             className="text-rose-400 hover:underline"
           >
             Public generic link
