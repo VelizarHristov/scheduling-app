@@ -48,7 +48,7 @@ export async function POST(req: Request) {
   const minuteNum = parseInt(rawMinute);
   const minuteStr = minuteNum < 10 ? `0${minuteNum}` : rawMinute;
   const startTimeStamp = new Date(
-    `${dayISOFormatted}T${hourStr}:${minuteStr}:00-07:00`
+    `${dayISOFormatted}T${hourStr}:${minuteStr}:00+02:00`
   );
   const session: SessionInsert = {
     Title: title,
