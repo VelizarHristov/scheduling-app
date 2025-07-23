@@ -9,6 +9,7 @@ import { RSVP } from "@/db/rsvps";
 import { Tooltip } from "./tooltip";
 import { DateTime } from "luxon";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 import { useContext, useState } from "react";
 import { CurrentUserModal } from "../modals";
 import { UserContext } from "../context";
@@ -47,6 +48,7 @@ export function SessionBlock(props: {
         <BlankSessionCard numHalfHours={numHalfHours} />
       ) : (
         <RealSessionCard
+          eventName={eventName}
           session={session}
           location={location}
           numHalfHours={numHalfHours}
@@ -101,17 +103,19 @@ async function rsvp(guestId: string, sessionId: string, remove = false) {
 }
 
 export function RealSessionCard(props: {
+  eventName: string;
   session: Session;
   numHalfHours: number;
   location: Location;
   guests: Guest[];
   rsvpsForEvent: RSVP[];
 }) {
-  const { session, numHalfHours, location, guests, rsvpsForEvent } = props;
+  const { eventName, session, numHalfHours, location, guests, rsvpsForEvent } = props;
   const { user: currentUser } = useContext(UserContext);
   const [optimisticRSVPResponse, setOptimisticRSVPResponse] = useState<
     boolean | null
   >(null);
+  const router = useRouter();
   const rsvpStatus =
     optimisticRSVPResponse !== null
       ? optimisticRSVPResponse
@@ -124,7 +128,10 @@ export function RealSessionCard(props: {
   const onMobile = screenWidth < 640;
 
   const handleClick = () => {
-    if (currentUser && !onMobile) {
+    if (hostStatus) {
+      const url = `/${eventName.replace(" ", "-")}/edit-session?sessionID=${session.ID}`
+      router.push(url);
+    } else if (currentUser && !onMobile) {
       rsvp(currentUser, session.ID, !!rsvpStatus);
       setOptimisticRSVPResponse(!rsvpStatus);
     } else {
