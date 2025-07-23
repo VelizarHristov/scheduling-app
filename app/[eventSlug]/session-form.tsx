@@ -112,10 +112,7 @@ export function SessionForm(props: {
     }
     setIsSubmitting(false);
   };
-  const [showDeletionModal, setShowDeletionModal] = useState(false);
-  const ClickDelete = async () => setShowDeletionModal(true);
   const Delete = async () => {
-    // TODO: display confirmation modal
     setIsSubmitting(true);
     const res = await fetch("/api/delete-session", {
       method: "POST",
