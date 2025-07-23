@@ -4,7 +4,6 @@ import { Guest } from "@/db/guests";
 import { Session } from "@/db/sessions";
 import { DateTime } from "luxon";
 import { CONSTS } from "@/utils/constants";
-import { FieldSet, Records } from "airtable";
 
 export type SessionParams = {
   id?: string;

@@ -128,7 +128,10 @@ export function RealSessionCard(props: {
   const onMobile = screenWidth < 640;
 
   const handleClick = () => {
-    if (currentUser && !onMobile) {
+    if (hostStatus) {
+      const url = `/${eventName.replace(" ", "-")}/edit-session?sessionID=${session.ID}`
+      router.push(url);
+    } else if (currentUser && !onMobile) {
       rsvp(currentUser, session.ID, !!rsvpStatus);
       setOptimisticRSVPResponse(!rsvpStatus);
     } else {
