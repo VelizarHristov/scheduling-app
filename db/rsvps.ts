@@ -11,7 +11,7 @@ export async function getRSVPsByUser(guestId?: string) {
   await base("RSVPs")
     .select({
       fields: ["Session", "Guest"],
-      filterByFormula: `{Guest} = "${guestId}"`,
+      filterByFormula: `{Guest ID} = "${guestId}"`,
     })
     .eachPage(function page(records: any, fetchNextPage: any) {
       records.forEach(function (record: any) {
