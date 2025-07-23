@@ -14,6 +14,7 @@ import { Day } from "@/db/days";
 import { Guest } from "@/db/guests";
 import { Location } from "@/db/locations";
 import { Session } from "@/db/sessions";
+import { ConfirmDeletionModal } from "../modals";
 
 export function SessionForm(props: {
   eventName: string;
@@ -108,6 +109,28 @@ export function SessionForm(props: {
       router.push(`/${eventName.replace(" ", "-")}/add-session/confirmation?actionType=${actionType}`);
     } else {
       console.error("Failed to add session");
+    }
+    setIsSubmitting(false);
+  };
+  const [showDeletionModal, setShowDeletionModal] = useState(false);
+  const ClickDelete = async () => setShowDeletionModal(true);
+  const Delete = async () => {
+    // TODO: display confirmation modal
+    setIsSubmitting(true);
+    const res = await fetch("/api/delete-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: sessionID
+      }),
+    });
+    if (res.ok) {
+      console.log("Session deleted successfully");
+      router.push(`/${eventName.replace(" ", "-")}/edit-session/deletion-confirmation`);
+    } else {
+      console.error("Failed to delete session");
     }
     setIsSubmitting(false);
   };
@@ -214,6 +237,7 @@ export function SessionForm(props: {
       >
         Submit
       </button>
+      {sessionID && <ConfirmDeletionModal btnDisabled={isSubmitting} confirm={Delete} />}
     </div>
   );
 }
