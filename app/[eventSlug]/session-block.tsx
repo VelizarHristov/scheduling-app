@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { ClockIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { UserIcon } from "@heroicons/react/24/solid";
+import { UserIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Session } from "@/db/sessions";
 import { Day } from "@/db/days";
 import { Location } from "@/db/locations";
@@ -128,15 +128,16 @@ export function RealSessionCard(props: {
   const onMobile = screenWidth < 640;
 
   const handleClick = () => {
-    if (hostStatus) {
-      const url = `/${eventName.replace(" ", "-")}/edit-session?sessionID=${session.ID}`
-      router.push(url);
-    } else if (currentUser && !onMobile) {
+    if (currentUser && !onMobile) {
       rsvp(currentUser, session.ID, !!rsvpStatus);
       setOptimisticRSVPResponse(!rsvpStatus);
     } else {
       setRsvpModalOpen(true);
     }
+  };
+  const onClickEdit = () => {
+    const url = `/${eventName.replace(" ", "-")}/edit-session?sessionID=${session.ID}`
+    router.push(url);
   };
 
   const numRSVPs = session["Num RSVPs"] + (optimisticRSVPResponse ? 1 : 0);
@@ -221,6 +222,15 @@ export function RealSessionCard(props: {
         >
           {formattedHostNames}
         </p>
+        {hostStatus &&
+          <PencilSquareIcon onClick={onClickEdit}
+            className={clsx(
+              "absolute h-5 w-5 bottom-0 left-0",
+              "text-gray-600 hover:text-black",
+              "cursor-context-menu"
+            )}
+          />
+        }
         <div
           className={clsx(
             "absolute py-[1px] px-1 rounded-tl text-[10px] bottom-0 right-0 flex gap-0.5 items-center",
