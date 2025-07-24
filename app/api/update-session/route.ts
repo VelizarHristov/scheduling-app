@@ -28,7 +28,6 @@ export async function POST(req: Request) {
         });
       }
     );
-    // TODO: also delete all RSVPs by the new hosts - fixes the bug where otherwise you might RSVP for your own event (and trying to un-RSVP would only show you the edit page)
     return Response.json({ success: true });
   } else {
     return Response.error();
