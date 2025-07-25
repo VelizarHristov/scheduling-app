@@ -27,6 +27,7 @@ export function SessionBlock(props: {
   const endTime = new Date(session["End time"]).getTime();
   const sessionLength = endTime - startTime;
   const numHalfHours = sessionLength / 1000 / 60 / 30;
+  const rsvpdForEvent = rsvpsForEvent.length > 0;
   const isBlank = !session.Title;
   const isBookable =
     !!isBlank &&
@@ -51,7 +52,7 @@ export function SessionBlock(props: {
           location={location}
           numHalfHours={numHalfHours}
           guests={guests}
-          rsvpsForEvent={rsvpsForEvent}
+          rsvpd={rsvpdForEvent}
         />
       )}
     </>
@@ -105,19 +106,20 @@ export function RealSessionCard(props: {
   numHalfHours: number;
   location: Location;
   guests: Guest[];
-  rsvpsForEvent: RSVP[];
+  rsvpd: boolean;
 }) {
-  const { session, numHalfHours, location, guests, rsvpsForEvent } = props;
+  const { session, numHalfHours, location, guests, rsvpd } = props;
   const { user: currentUser } = useContext(UserContext);
-  const [optimisticRSVPResponse, setOptimisticRSVPResponse] = useState<
-    boolean | null
-  >(null);
-  const rsvpStatus =
-    optimisticRSVPResponse !== null
-      ? optimisticRSVPResponse
-      : rsvpsForEvent.length > 0;
+  const [toggledRSVP, setToggledRSVP] = useState<boolean>(false);
+  function rsvpStatus() {
+    if (toggledRSVP) {
+      return !rsvpd;
+    } else {
+      return rsvpd;
+    }
+  }
   const hostStatus = currentUser && session.Hosts?.includes(currentUser);
-  const lowerOpacity = !rsvpStatus && !hostStatus;
+  const lowerOpacity = !rsvpStatus() && !hostStatus;
   const formattedHostNames = session["Host name"]?.join(", ") ?? "No hosts";
   const [rsvpModalOpen, setRsvpModalOpen] = useState(false);
   const screenWidth = useScreenWidth();
@@ -125,14 +127,21 @@ export function RealSessionCard(props: {
 
   const handleClick = () => {
     if (currentUser && !onMobile) {
-      rsvp(currentUser, session.ID, !!rsvpStatus);
-      setOptimisticRSVPResponse(!rsvpStatus);
+      rsvp(currentUser, session.ID, rsvpStatus());
+      setToggledRSVP(!toggledRSVP);
     } else {
       setRsvpModalOpen(true);
     }
   };
 
-  const numRSVPs = session["Num RSVPs"] + (optimisticRSVPResponse ? 1 : 0);
+  let numRSVPs = session["Num RSVPs"];
+  if (toggledRSVP) {
+    if (rsvpd) {
+      numRSVPs -= 1;
+    } else {
+      numRSVPs += 1;
+    }
+  }
   const SessionInfoDisplay = () => (
     <>
       <h1 className="text-lg font-bold leading-tight">{session.Title}</h1>
@@ -173,11 +182,11 @@ export function RealSessionCard(props: {
         // rsvp here should actually be rsvp
         rsvp={() => {
           if (!currentUser) return;
-          rsvp(currentUser, session.ID, !!rsvpStatus);
-          setOptimisticRSVPResponse(!rsvpStatus);
+          rsvp(currentUser, session.ID, rsvpStatus());
+          setToggledRSVP(!toggledRSVP);
         }}
         guests={guests}
-        rsvpd={rsvpStatus}
+        rsvpd={rsvpStatus()}
         sessionInfoDisplay={<SessionInfoDisplay />}
       />
       <button
